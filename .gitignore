@@ -1,0 +1,6 @@
+# Config locale Claude — mai committare
+.claude/
+
+# OS / editor
+Thumbs.db
+.DS_Store

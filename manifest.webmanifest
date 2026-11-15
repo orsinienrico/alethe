@@ -1,0 +1,16 @@
+{
+  "name": "ALETHE — Reale o non torna?",
+  "short_name": "ALETHE",
+  "description": "Cinque storie al giorno: reale o non torna? Lucidità, crediti, streak e livelli.",
+  "lang": "it",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#05060E",
+  "theme_color": "#05060E",
+  "icons": [
+    { "src": "icons/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "icons/icon-maskable.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "maskable" }
+  ]
+}

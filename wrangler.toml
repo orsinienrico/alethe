@@ -1,0 +1,12 @@
+name = "alethe"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "."
+
+# Binding D1: creare il database una volta sola nella dashboard (Workers & Pages → D1 → Create → alethe-db),
+# poi incollare qui il database_id reale.
+# In locale: `npm run dev` usa una D1 locale con le migrations (npx wrangler d1 migrations apply alethe-db --local).
+[[d1_databases]]
+binding = "DB"
+database_name = "alethe-db"
+database_id = "DA_SOSTITUIRE_CON_ID_REALE"
+migrations_dir = "migrations"
