@@ -82,14 +82,13 @@ python -m http.server 8080        # statico (auth/scores in modalità demo su lo
 npm install && npm run dev        # completo: Functions + D1 locale (auth e sync reali)
 ```
 
-## Deploy su Cloudflare (dashboard, a mano)
+## Deploy su Cloudflare Pages (Git integration)
 
-1. D1: crea `alethe-db` + applica migrations
-2. Pages: Connect to Git → repo `orsinienrico/alethe`, branch `main`, build command vuoto, output `/`
-3. Binding: Settings → Functions → D1 → `DB` → `alethe-db`
-4. **Analytics**: Web Analytics → attiva (CSP già pronta per il beacon)
-5. Deploy → `alethe.pages.dev`; ogni push su `main` = auto-deploy; bumpare `CACHE` in `sw.js` a ogni rilascio
-6. **og.png**: aggiornare `og:image`/`twitter:image` in `index.html` con l'URL assoluto del dominio (WhatsApp risolve solo URL assoluti)
+- Production branch: `main`; preview branches: release branches.
+- Build command: `npm run build`; output: `dist`. The build runs the existing load/CSS/accessibility tests, then copies only public runtime assets and versions the service worker automatically.
+- Configure D1 with the actual database ID in `wrangler.toml` before deploying. Apply migrations before enabling registration. Isolate preview data from production.
+- First-release checks: homepage, `/api/health` (HTTP 200 and status ok), auth, gameplay, PWA, and absence of source/configuration files in static output.
+- Every merge to main triggers deployment after Cloudflare's Git integration is connected. Do not claim live until deployment and smoke tests pass.
 
 ## Roadmap (dal panel di esperti)
 
