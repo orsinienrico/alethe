@@ -2,7 +2,7 @@
 const fs = require('fs');
 const css = fs.readFileSync('css/alethe.css', 'utf8');
 const used = new Set();
-for (const f of ['index.html', 'privacy.html']) {
+for (const f of [fs.existsSync('_product/index.html') ? '_product/index.html' : 'index.html', 'privacy.html']) {
   const html = fs.readFileSync(f, 'utf8');
   for (const m of html.matchAll(/class="([^"]+)"/g)) m[1].split(/\s+/).forEach(c => c && used.add(c));
 }

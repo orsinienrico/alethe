@@ -1,0 +1,23 @@
+exclude:
+  - js
+  - css
+  - fonts
+  - icons
+  - functions
+  - migrations
+  - scripts
+  - docs
+  - mockups.html
+  - manifest.webmanifest
+  - og.png
+  - README.md
+  - MAINTENANCE.md
+  - package.json
+  - wrangler.toml
+  - load-check.js
+  - css-check.js
+  - a11y-check.js
+  - gen-og.js
+  - _product
+  - privacy.html
+  - terms.html

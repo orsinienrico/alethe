@@ -1,0 +1,2 @@
+# Maintenance mode
+Public product is intentionally paused. Keep this mode active during development; do not reactivate without owner approval. Original app HTML and service worker are in `_product/`; original API middleware too. Restore those files, remove this marker and adapt Jekyll exclusions and robots when approved. D1 and code preserved. CF pipeline validates maintenance and retires old published release; GitHub Pages serves the same maintenance screen.

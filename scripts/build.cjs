@@ -2,6 +2,15 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '..');
+if (fs.existsSync(path.join(root,'MAINTENANCE.md'))) {
+  const out = path.join(root,'dist');
+  fs.rmSync(out,{recursive:true,force:true});
+  fs.mkdirSync(out,{recursive:true});
+  for (const name of ['index.html','maintenance.css','maintenance.js','sw.js','_headers','robots.txt']) fs.copyFileSync(path.join(root,name),path.join(out,name));
+  fs.copyFileSync(path.join(out,'index.html'),path.join(out,'404.html'));
+  console.log('Maintenance release: product assets not published.');
+  process.exit(0);
+}
 const out = path.join(root, 'dist');
 const assets = ['index.html','privacy.html','terms.html','_headers','robots.txt','og.png','manifest.webmanifest','sw.js','css','js','fonts','icons'];
 fs.rmSync(out, {recursive:true,force:true});

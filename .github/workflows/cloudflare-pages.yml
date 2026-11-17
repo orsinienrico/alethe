@@ -51,4 +51,17 @@ jobs:
           url="$(cat "$RUNNER_TEMP/alethe-url")"
           curl --fail --silent --show-error --retry 6 --retry-all-errors "$url/" -o /tmp/alethe-home.html
           curl --fail --silent --show-error --retry 6 --retry-all-errors "$url/api/health" | python3 -c 'import json,sys; assert json.load(sys.stdin)["status"]=="ok"'
+          if test -f MAINTENANCE.md; then
+            grep -q 'id="alethe-maintenance"' /tmp/alethe-home.html
+            code="$(curl --silent --show-error -o /tmp/alethe-api.json -w '%{http_code}' "$url/api/auth/me")"
+            test "$code" = 503
+            python3 -c 'import json; assert json.load(open("/tmp/alethe-api.json"))["error"]=="maintenance"'
+          fi
           printf 'Verified deployment: %s\n' "$url" >> "$GITHUB_STEP_SUMMARY"
+      - name: Retire previous public game deployment
+        if: success()
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if test -f MAINTENANCE.md; then python3 scripts/retire-live.py; fi

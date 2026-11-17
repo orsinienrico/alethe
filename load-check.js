@@ -33,7 +33,7 @@ function fakeEl(id) {
   }
   return elements[id];
 }
-const knownIds = [...fs.readFileSync('index.html', 'utf8').matchAll(/id="([^"]+)"/g)].map(m => m[1]);
+const knownIds = [...fs.readFileSync(fs.existsSync('_product/index.html') ? '_product/index.html' : 'index.html', 'utf8').matchAll(/id="([^"]+)"/g)].map(m => m[1]);
 
 const sandbox = {
   document: {
