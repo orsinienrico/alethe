@@ -21,20 +21,26 @@ def api(method, path, data=None):
         with urllib.request.urlopen(request, timeout=30) as response:
             result = json.load(response)
     except urllib.error.HTTPError as error:
-        sys.exit(f"Cloudflare {method} {path.split('?')[0]} returned HTTP {error.code}; check token permissions and account.")
+        try:
+            payload = json.load(error)
+            codes = [str(item["code"]) for item in payload.get("errors", []) if isinstance(item.get("code"), int)]
+        except (ValueError, TypeError, KeyError, AttributeError):
+            codes = []
+        sys.exit(f"Cloudflare {method} {path.split('?')[0]} returned HTTP {error.code}; error codes: {','.join(codes) or 'unavailable'}.")
     if not result.get("success"):
         sys.exit("Cloudflare rejected " + method + " " + path.split("?")[0])
     return result
 
 def named(path, name):
+    page_size = 10 if path == "/pages/projects" else 50
     for page in range(1, 101):
-        payload = api("GET", f"{path}?page={page}&per_page=50")
+        payload = api("GET", f"{path}?page={page}&per_page={page_size}")
         rows = payload["result"]
         found = [r for r in rows if r.get("name") == name]
         if found:
             return found[0]
         info = payload.get("result_info") or {}
-        if len(rows)<50 or page >= info.get("total_pages", 101):
+        if page >= (info.get("total_pages") or 101) or (not info.get("total_pages") and len(rows) < (info.get("per_page") or page_size)):
             return None
     sys.exit("Cloudflare pagination exceeded safety limit")
 
