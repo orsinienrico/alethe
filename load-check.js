@@ -50,7 +50,9 @@ const sandbox = {
   navigator: {},
   location: { search: '', protocol: 'http:', origin: 'http://localhost:8080', pathname: '/' },
   localStorage: { getItem() { return null }, setItem() {}, removeItem() {} },
-  Date, Math, JSON, setTimeout, setInterval, clearTimeout, clearInterval,
+  Date, Math, JSON,
+  // Browser timers are inert in this synchronous initialization smoke test.
+  setTimeout() { return 0; }, setInterval() { return 0; }, clearTimeout() {}, clearInterval() {},
   requestAnimationFrame(cb) { return 0 },
   fetch() { return new Promise((res, rej) => rej(new Error('no network in test'))) },
   URL: { createObjectURL() { return '' }, revokeObjectURL() {} },

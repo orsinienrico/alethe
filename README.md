@@ -82,14 +82,11 @@ python -m http.server 8080        # statico (auth/scores in modalità demo su lo
 npm install && npm run dev        # completo: Functions + D1 locale (auth e sync reali)
 ```
 
-## Deploy su Cloudflare (dashboard, a mano)
+## Deploy su Cloudflare Pages (GitHub Actions / Direct Upload)
 
-1. D1: crea `alethe-db` + applica migrations
-2. Pages: Connect to Git → repo `orsinienrico/alethe`, branch `main`, build command vuoto, output `/`
-3. Binding: Settings → Functions → D1 → `DB` → `alethe-db`
-4. **Analytics**: Web Analytics → attiva (CSP già pronta per il beacon)
-5. Deploy → `alethe.pages.dev`; ogni push su `main` = auto-deploy; bumpare `CACHE` in `sw.js` a ogni rilascio
-6. **og.png**: aggiornare `og:image`/`twitter:image` in `index.html` con l'URL assoluto del dominio (WhatsApp risolve solo URL assoluti)
+Production branch: `main`. Add repository Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` once. The token needs Cloudflare Pages Edit and D1 Edit, limited to the intended account. Never put the token in source.
+
+The pipeline tests the app, provisions the named Pages project and D1 if absent (EU jurisdiction for new D1), resolves the D1 binding in CI, applies migrations, deploys `dist` and checks the homepage and API health. No preview deployments use production data. A Direct Upload Pages project cannot later be switched to Git integration.
 
 ## Roadmap (dal panel di esperti)
 

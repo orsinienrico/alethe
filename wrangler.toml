@@ -1,6 +1,6 @@
 name = "alethe"
 compatibility_date = "2024-09-01"
-pages_build_output_dir = "."
+pages_build_output_dir = "./dist"
 
 # Binding D1: creare il database una volta sola nella dashboard (Workers & Pages → D1 → Create → alethe-db),
 # poi incollare qui il database_id reale.
