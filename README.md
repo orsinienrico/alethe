@@ -82,13 +82,11 @@ python -m http.server 8080        # statico (auth/scores in modalità demo su lo
 npm install && npm run dev        # completo: Functions + D1 locale (auth e sync reali)
 ```
 
-## Deploy su Cloudflare Pages (Git integration)
+## Deploy su Cloudflare Pages (GitHub Actions / Direct Upload)
 
-- Production branch: `main`; preview branches: release branches.
-- Build command: `npm run build`; output: `dist`. The build runs the existing load/CSS/accessibility tests, then copies only public runtime assets and versions the service worker automatically.
-- Configure D1 with the actual database ID in `wrangler.toml` before deploying. Apply migrations before enabling registration. Isolate preview data from production.
-- First-release checks: homepage, `/api/health` (HTTP 200 and status ok), auth, gameplay, PWA, and absence of source/configuration files in static output.
-- Every merge to main triggers deployment after Cloudflare's Git integration is connected. Do not claim live until deployment and smoke tests pass.
+Production branch: `main`. Add repository Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` once. The token needs Cloudflare Pages Edit and D1 Edit, limited to the intended account. Never put the token in source.
+
+The pipeline tests the app, provisions the named Pages project and D1 if absent (EU jurisdiction for new D1), resolves the D1 binding in CI, applies migrations, deploys `dist` and checks the homepage and API health. No preview deployments use production data. A Direct Upload Pages project cannot later be switched to Git integration.
 
 ## Roadmap (dal panel di esperti)
 
